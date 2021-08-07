@@ -1,20 +1,15 @@
 const { Router } = require("express");
+const Bear = require("../models/bear");
 const router = Router();
 
-let bearArray = [
-    {
-        id: 1,
-        name: "Grizzly Bear",
-        type: "Scary",
-        place: "Scandinavian Countries",
-    },
-    { id: 2, name: "Polar Bear", type: "Cute", place: "Polar Region" },
-    { id: 3, name: "Sloth Bear", type: "Lazy", place: "All over" },
-];
-
 //GET ALL
-router.get("/", (req, res) => {
-    res.send(bearArray);
+router.get("/", async (req, res) => {
+    try {
+        let bears = await Bear.find();
+        res.send(bears);
+    } catch (ex) {
+        return res.status(500).send("Error", ex.message);
+    }
 });
 
 router.get("/:bearId", (req, res) => {
@@ -31,19 +26,22 @@ router.get("/:bearId", (req, res) => {
 });
 
 //POST
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => {
 
     if (!req.body.name) {
         return res.status(400).send("Not all mandatory values are set");
     }
-    let newBearObj = {
-        id: bearArray.length + 1,
+    let bear = new Bear({
         name: req.body.name,
         type: req.body.type,
-        place: req.body.place
-    }
-    bearArray.push(newBearObj);
-    res.send(newBearObj);
+        movies: req.body.movies,
+        likeCount: req.body.likeCount,
+        imgUrl: req.body.imgUrl,
+        isScary: req.body.isScary
+    });
+
+    bear = await bear.save();
+    res.send(bear);
 })
 
 //PUT
