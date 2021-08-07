@@ -1,4 +1,5 @@
 const { Router } = require("express");
+const { ObjectId } = require("mongoose");
 const Bear = require("../models/bear");
 const router = Router();
 
@@ -12,13 +13,9 @@ router.get("/", async (req, res) => {
     }
 });
 
-router.get("/:bearId", (req, res) => {
-    let bearId = parseInt(req.params.bearId);
-    console.log("bearId: ", bearId);
-
-    let bear = bearArray.find((b) => {
-        return b.id === bearId;
-    });
+router.get("/:bearId", async (req, res) => {
+    let bearId = req.params.bearId;
+    let bear = await Bear.findById(bearId);
     if (!bear) {
         return res.status(404).send("Given ID does not exist");
     }
@@ -45,34 +42,18 @@ router.post("/", async (req, res) => {
 })
 
 //PUT
-router.put("/:bearId", (req, res) => {
-    let bearId = parseInt(req.params.bearId);
-    let bear = bearArray.find((b) => {
-        return b.id === bearId;
-    });
+router.put("/:bearId", async (req, res) => {
+    let bearId = req.params.bearId;
+    let bear = await Bear.findOneAndUpdate(bearId, { likeCount: req.body.likeCount });
 
-    if (!bear) {
-        return res.status(404).send("The given ID does not exist");
-    }
-
-    bear.name = req.body.name;
     res.send(bear);
 })
 
 //DELETE
-router.delete("/:bearId", (req, res) => {
+router.delete("/:bearId", async (req, res) => {
 
-    let bearId = parseInt(req.params.bearId);
-    let bear = bearArray.find((b) => {
-        return b.id === bearId;
-    });
-
-    if (!bear) {
-        return res.status(404).send("The given ID does not exist");
-    }
-
-    let bearIndex = bearArray.indexOf(bear);
-    bearArray.splice(bearIndex, 1);
+    let bearId = req.params.bearId;
+    let bear = await Bear.findOneAndDelete({ _id: bearId });
 
     res.send(bear);
 });
