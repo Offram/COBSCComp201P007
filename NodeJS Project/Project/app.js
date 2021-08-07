@@ -1,4 +1,6 @@
 const express = require("express");
+const authenticationHandler = require("./middlewares/authentication");
+const logHandler = require("./middlewares/logger");
 const app = express();
 
 let bearArray = [
@@ -12,7 +14,19 @@ let bearArray = [
   { id: 3, name: "Sloth Bear", type: "Lazy", place: "All over" },
 ];
 
-app.use(express.json());
+app.use(express.json()); // Parse JSON objects in requests
+app.use(authenticationHandler); //Autherntication middleware
+app.use(logHandler); //Request logger middleware
+
+// app.use((req, res, next) => { 
+//   console.log("Middleware 1 executing.....");
+//   next();
+// });
+// app.use((req, res, next) => {
+//   console.log("Middleware 2 executing.....");
+//   next();
+// });
+
 //GET
 app.get("/", (req, res) => {
   res.send("Hello Everyone, Welcome to the class");
