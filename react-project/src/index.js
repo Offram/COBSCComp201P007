@@ -2,6 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "bootstrap/dist/css/bootstrap.css";
 
-import Bear from "./components/bear"
+import Bears from "./components/bears"
 
-ReactDOM.render(<Bear />, document.getElementById('root'));
+ReactDOM.render(<Bears />, document.getElementById('root'));
