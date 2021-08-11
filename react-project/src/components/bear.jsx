@@ -2,10 +2,10 @@ import React, { Component } from "react";
 
 class Bear extends Component {
     state = {
-        bearName: this.props.bearName,
-        bearId: this.props.bearId,
-        movies: ["Movie 1", "Movie 2", "Movie 3", "Movie 4"],
-        likeCount: this.props.likeCount
+        // bearName: this.props.bear.name,
+        bearId: this.props.bear.bearId,
+        // movies: this.props.bear.movies,
+        likeCount: this.props.bear.likeCount
     };
     render() {
         return (
@@ -16,19 +16,22 @@ class Bear extends Component {
                 <h3>{this.isBear()}</h3> */}
 
                 <div className="card" style={{ width: "18rem" }}>
-                    <img src="logo512.png" className="card-img-top" alt="..." />
+                    <img src={this.props.bear.imgUrl} className="card-img-top" alt="..." />
                     <div className="card-body">
-                        <h5 className="card-title">{this.state.bearName}</h5>
+                        <h5 className="card-title">{this.props.bear.name}</h5>
                         <p className="card-text">Bear Movies </p>
                         <ul className="card-text">
                             {
-                                this.state.movies.map((element) => {
+                                this.props.bear.movies.map((element) => {
                                     return (<li key={element}>{element}</li>);
                                 })
                             }
                         </ul>
-                        <button className="btn btn-primary" onClick={() => this.likeBear(3)}>
+                        <button className="btn btn-primary" onClick={this.props.onLike}>
                             Like <span className="badge bg-light text-dark">{this.state.likeCount}</span>
+                        </button>{" "}
+                        <button type="button" className="btn btn-danger" onClick={this.props.onDelete}>
+                            Delete
                         </button>
                     </div>
                 </div>

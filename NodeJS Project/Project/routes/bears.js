@@ -44,7 +44,7 @@ router.post("/", async (req, res) => {
 //PUT
 router.put("/:bearId", async (req, res) => {
     let bearId = req.params.bearId;
-    let bear = await Bear.findOneAndUpdate(bearId, { likeCount: req.body.likeCount });
+    let bear = await Bear.findOneAndUpdate({ _id: bearId }, { likeCount: req.body.likeCount });
 
     res.send(bear);
 })
