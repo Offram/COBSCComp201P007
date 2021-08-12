@@ -5,7 +5,7 @@ class Bear extends Component {
         // bearName: this.props.bear.name,
         bearId: this.props.bear.bearId,
         // movies: this.props.bear.movies,
-        likeCount: this.props.bear.likeCount
+        // likeCount: this.props.bear.likeCount  //commented because likeCount does not change when the button is clicked
     };
     render() {
         return (
@@ -28,7 +28,7 @@ class Bear extends Component {
                             }
                         </ul>
                         <button className="btn btn-primary" onClick={this.props.onLike}>
-                            Like <span className="badge bg-light text-dark">{this.state.likeCount}</span>
+                            Like <span className="badge bg-light text-dark">{this.props.bear.likeCount}</span>
                         </button>{" "}
                         <button type="button" className="btn btn-danger" onClick={this.props.onDelete}>
                             Delete

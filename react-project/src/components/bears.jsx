@@ -31,7 +31,7 @@ class Bears extends Component {
                 movies: bear.movies,
                 likeCount: bear.likeCount,
                 imgUrl: bear.imgUrl,
-                isScary: bear.isScaryZ
+                isScary: bear.isScary
             }
         });
 
