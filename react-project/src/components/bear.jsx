@@ -22,8 +22,8 @@ class Bear extends Component {
                         <p className="card-text">Bear Movies </p>
                         <ul className="card-text">
                             {
-                                this.props.bear.movies.map((element) => {
-                                    return (<li key={element}>{element}</li>);
+                                this.props.bear.movies.map((movie) => {
+                                    return (<li key={movie}>{movie}</li>);
                                 })
                             }
                         </ul>
@@ -41,7 +41,7 @@ class Bear extends Component {
 
     likeBear = (addCounter) => {
         console.log("You have liked the Bear......");
-        this.setState({ likeCount: this.state.likeCount + addCounter })
+        this.setState({ likeCount: this.state.likeCount + addCounter });
     }
 
     isBear() {
