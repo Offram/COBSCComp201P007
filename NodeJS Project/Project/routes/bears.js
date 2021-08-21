@@ -1,7 +1,10 @@
 const { Router } = require("express");
 const { ObjectId } = require("mongoose");
+const jwt = require("jsonwebtoken");
 const Bear = require("../models/bear");
 const router = Router();
+
+const SECRET_KEY = "jkljYUTYFG&%%754GfgfrY^$&53";
 
 //GET ALL
 router.get("/", async (req, res) => {
@@ -25,9 +28,22 @@ router.get("/:bearId", async (req, res) => {
 //POST
 router.post("/", async (req, res) => {
 
+    const token = req.header("x-jwt-token");
+    if (!token) {
+        return res.status(401).send("Access denied. No token available");
+    }
+
+    try {
+        jwt.verify(token, SECRET_KEY);
+    } catch (e) {
+        return res.status(400).send("Invalid token");
+    }
+
     if (!req.body.name) {
         return res.status(400).send("Not all mandatory values are set");
     }
+
+
     let bear = new Bear({
         name: req.body.name,
         type: req.body.type,
@@ -51,6 +67,21 @@ router.put("/:bearId", async (req, res) => {
 
 //DELETE
 router.delete("/:bearId", async (req, res) => {
+
+    const token = req.header("x-jwt-token");
+    if (!token) {
+        return res.status(401).send("Access denied. No token available");
+    }
+    try {
+        jwt.verify(token, SECRET_KEY);
+    } catch (e) {
+        return res.status(400).send("Invalid token");
+    }
+
+    let decoded = jwt.decode(token, SECRET_KEY);
+    if (!decoded.isAdmin) {
+        return res.status(403).send("Forbidden - no authorization available");
+    }
 
     let bearId = req.params.bearId;
     let bear = await Bear.findOneAndDelete({ _id: bearId });

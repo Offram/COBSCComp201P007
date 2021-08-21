@@ -39,7 +39,11 @@ class Bears extends Component {
     }
 
     async deleteBear(bearIdToDelete) {
-        await axios.delete("http://localhost:5000/api/bears/" + bearIdToDelete);
+        await axios.delete("http://localhost:5000/api/bears/" + bearIdToDelete, {
+            headers: {
+                "x-jwt-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxMjE1YTIwMDA2MzFjMDY0NDcwNWViNCIsImVtYWlsIjoic2FtQGdtYWlsLmNvbSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTYyOTU4MTIxOCwiZXhwIjoxNjI5NzU0MDE4fQ.h1EuzHa84oUYmVG2bRLuTigqBjnJZE5_xE8Fh0ImWoY"
+            }
+        });
         //Make sure the next part is run only if db call is successful
         let newBearArray = this.state.allBears.filter(bear => bear.id !== bearIdToDelete);
         this.setState({ allBears: newBearArray });
