@@ -3,8 +3,9 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const authenticationHandler = require("./middlewares/authentication");
 const logHandler = require("./middlewares/logger");
-const bears = require("./routes/bears");
 const home = require("./routes/home");
+const bears = require("./routes/bears");
+const users = require("./routes/users");
 const app = express();
 
 mongoose.connect("mongodb://localhost:27017/beardb", { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
@@ -27,6 +28,7 @@ app.use(logHandler); //Request logger middleware
 
 app.use('/', home);
 app.use('/api/bears', bears);
+app.use('/api/users', users);
 
 app.listen(5000, () => {
   console.log("Listen on Port 5000");
