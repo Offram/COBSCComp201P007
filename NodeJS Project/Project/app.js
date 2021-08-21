@@ -32,6 +32,8 @@ app.use('/api/bears', bears);
 app.use('/api/users', users);
 app.use('/api/auth', auth);
 
-app.listen(5000, () => {
-  console.log("Listen on Port 5000");
+const PORT = 5000;
+
+app.listen(PORT, () => {
+  console.log(`Listen on Port ${PORT}`);
 });
